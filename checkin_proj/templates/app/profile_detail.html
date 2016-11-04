@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="row centered">
+    <h1>Welcome to your profile page {{ object.parent_name }}</h1>
+  </div>
+
+  <div style="height:100px"></div>
+
+  <div class="row centered">
+    <h2>Your child {{ object.child_name }} is {% if profile.checked_in is False %} OFF-Site {% else %} ON-Site. {% endif %}</h2>
+  </div>
+
+  <div style="height:50px"></div>
+
+  {% if profile.checked_in is False %}
+    <div class="row centered">
+      <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Check-IN</a>
+    </div>
+  {% else %}
+    <div class="row centered">
+      <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Check-OUT</a>
+    </div>
+  {% endif %}
+
+{% endblock %}

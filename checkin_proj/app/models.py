@@ -4,11 +4,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 class Profile(models.Model):
-    created_by = models.ForeignKey('auth.User')
+    created_by = models.ForeignKey('auth.User', null=True)
     created = models.DateTimeField(auto_now_add=True)
     parent_name = models.CharField(max_length=100)
     child_name = models.CharField(max_length=100)
     code = models.CharField(max_length=4)
+    checked_in = models.BooleanField(default=False)
 
     def __str__(self):
         return self.parent_name
@@ -21,8 +22,8 @@ def create_profile(sender, **kwargs):
         Profile.objects.create(user=instance)
 
 STATUS = [
-    ("i", "checkin"),
-    ("o", "checkout")
+    ("i", "Check-In"),
+    ("o", "Check-Out")
 ]
 class ChildStatus(models.Model):
     profile = models.ForeignKey(Profile)

@@ -16,23 +16,20 @@
   <body>
 
     <!-- 'Nav Bar' -->
-
-      <nav class="tabs" data-component="tabs">
-        <ul>
-          <li class=""><a href="{% url 'index_view' %}">Home</a></li>
-          {% if not request.user.is_authenticated %}
-          <li class=""><a href="{% url 'login' %}">Employee Login</a></li>
-          {% else %}
-          <li class=""><a href="{% url 'profile_view' %}">Profile</a></li>
-          <li class=""><a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a></li>
-          {% endif %}
-        </ul>
-      </nav>
-
+    <nav class="tabs" data-component="tabs">
+      <ul>
+        <li class=""><a href="{% url 'index_view' %}">Home</a></li>
+        {% if not request.user.is_authenticated %}
+        <li class=""><a href="{% url 'login' %}">Employee Login</a></li>
+        {% else %}
+        <li class=""><a href="{% url 'profile_view' %}">Profile</a></li>
+        <li class=""><a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a></li>
+        {% endif %}
+      </ul>
+    </nav>
 
     {% block content %}
     {% endblock %}
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="{% static 'js/kube.js' %}"></script>

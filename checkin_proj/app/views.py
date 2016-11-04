@@ -16,7 +16,27 @@ def new_code():
     return code
 
 class IndexView(TemplateView):
+    model = Profile
+    fields = ("checked_in",)
     template_name = "index.html"
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        if self.request.GET:
+            print(self.request.GET)
+            context["profile"] = Profile.objects.get(code=self.request.GET.get("code"))
+        return context
+
+    # def form_valid(self, form):
+    #     instance = form.save(commit=False)
+    #
+    #     if self.request.POST.get("checkin"):
+    #         instance.checked_in = True
+    #     if self.request.POST.get("checkout"):
+    #         instance.checked_in = False
+    #
+    #     return super().form_valid(form)
+
 
 class ProfileCreateView(CreateView):
     model = Profile
@@ -33,3 +53,15 @@ class ProfileCreateView(CreateView):
 class ProfileView(TemplateView):
     model = Profile
     template_name = "profile.html"
+
+class StatusCreateView(CreateView):
+    model = ChildStatus
+    fields = ("status",)
+
+class ParentProfileView(DetailView):
+    model = Profile
+
+    # def get_context_data(self):
+    #     context = super().get_context_data(**kwargs)
+    #     context["transactions"] = ChildStatus.objects.filter(self)
+    #     return context

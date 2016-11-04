@@ -5,6 +5,51 @@
     <h1>Welcome to Daycare</h1>
   </div>
 
+  <div style="height:100px"></div>
+
+  <div class="row centered">
+    <h3>Parents enter you child's sercret code here:</h3>
+  </div>
+
+  <div style="height:50px"></div>
+
+  <!-- Parent sign in form -->
+  <div class="row centered">
+    <form class="" action="" method="get">
+      {% csrf_token %}
+      <input type="text" name="code" placeholder="Code goes here:">
+      <input class="button" type="submit" name="" value="Submit">
+    </form>
+  </div>
+
+  <div style="height:100px"></div>
+
+  <!-- Information displayed when code entered -->
+  {% if profile %}
+
+    <div class="row centered">
+      <h2>Welcome {{ profile.parent_name }}, {{ profile.child_name }} is {% if profile.checked_in is False %} OFF-Site {% else %} ON-Site. {% endif %}</h2>
+    </div>
+
+    <div style="height:50px"></div>
+
+
+    <div class="row centered">
+
+      {% if profile.checked_in is False %}
+        <div class="row centered">
+          <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Check-IN</a>
+        </div>
+      {% else %}
+        <div class="row centered">
+          <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Check-OUT</a>
+        </div>
+      {% endif %}
+
+    </div>
+
+{% endif %}
+
 
 
 {% endblock %}
