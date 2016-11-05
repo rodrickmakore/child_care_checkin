@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="row centered">
+    <h1>Welcome to your profile page {{ object.parent_name }}</h1>
+  </div>
+
+  <div style="height:100px"></div>
+
+  <div class="row centered">
+    <h2>Your child {{ object.child_name }} is</h2>
+  </div>
+
+  <div style="height:50px"></div>
+
+  <div class="row centered">
+    <h1>All of your Transactions:</h1>
+  </div>
+  <div class="row centered">
+    <table class="bordered">
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in reports %}
+            <tr>
+                <td>{{ item.get_action_display }}</td>
+                <td>{{ item.created }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+  </div>
+
+
+
+{% endblock %}

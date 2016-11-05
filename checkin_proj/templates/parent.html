@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row centered">
+    <h1>Welcome to your profile page {{ object.parent_name }}</h1>
+  </div>
+
+  <div style="height:100px"></div>
+
+  <div class="row centered">
+    <h2>Your child {{ object.child_name }} is {% if profile.checked_in is False %} OFF-Site {% else %} ON-Site. {% endif %}</h2>
+  </div>
+
+  <div class="row centered">
+
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input class="button" type="submit" name="" value="Submit">
+    </form>
+    
+  </div>
+
+
+{% endblock %}

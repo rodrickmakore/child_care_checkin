@@ -28,25 +28,27 @@
   {% if profile %}
 
     <div class="row centered">
-      <h2>Welcome {{ profile.parent_name }}, {{ profile.child_name }} is {% if profile.checked_in is False %} OFF-Site {% else %} ON-Site. {% endif %}</h2>
+      <h2>Welcome {{ profile.parent_name }}, your child {{ profile.child_name }} is </h2>
     </div>
 
     <div style="height:50px"></div>
 
+    <div class="row centered">
+      <h3>What would you like to do?</h3>
+    </div>
 
     <div class="row centered">
-
-      {% if profile.checked_in is False %}
-        <div class="row centered">
-          <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Check-IN</a>
-        </div>
-      {% else %}
-        <div class="row centered">
-          <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Check-OUT</a>
-        </div>
-      {% endif %}
-
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="button big" type="submit" value="Submit">
+      </form>
     </div>
+
+    <div class="row centered">
+      <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Go to your Profile Page</a>
+    </div>
+
 
 {% endif %}
 
