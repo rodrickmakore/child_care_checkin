@@ -22,19 +22,23 @@ class IndexView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        print(self.request.GET)
         if self.request.GET:
             context["profile"] = CustomerProfile.objects.get(code=self.request.GET.get("code"))
         return context
 
     def form_valid(self, form):
         instance = form.save(commit=False)
+        last_report = CustomerProfile.objects.get(code=self.request.GET.get("code")).last_report()
         instance.profile = CustomerProfile.objects.get(code=self.request.GET.get("code"))
+        if instance.action == last_report.action:
+            return super().form_invalid(form)
         return super().form_valid(form)
 
 class CustomerCreateView(CreateView):
     model = CustomerProfile
     fields = ("parent_name", "child_name")
-    success_url = reverse_lazy("index_view")
+    success_url = reverse_lazy("profile_view")
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -42,13 +46,32 @@ class CustomerCreateView(CreateView):
         instance.code = new_code()
         return super().form_valid(form)
 
-class EmployeeProfileView(TemplateView):
+class EmployeeProfileView(ListView):
     model = CustomerProfile
     template_name = "profile.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_profiles'] = CustomerProfile.objects.all()
+        return context
+
 class ParentProfileView(DetailView):
     model = CustomerProfile
-    success_url = reverse_lazy("parent_profile_view")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reports'] = ChildReport.objects.filter(profile=self.object.id)
+        return context
+
+class ChildReportCreateView(CreateView):
+    model = ChildReport
+    success_url = reverse_lazy("index_view")
+    fields = ('action', 'profile')
+
+
+class EmployeeDetailView(DetailView):
+    model = CustomerProfile
+    template_name = "employee_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

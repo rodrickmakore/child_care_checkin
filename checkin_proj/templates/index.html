@@ -26,9 +26,9 @@
 
   <!-- Information displayed when code entered -->
   {% if profile %}
-    <h1>{{ profile.on_site }}</h1>
+
     <div class="row centered">
-      <h2>Welcome {{ profile.parent_name }}, your child {{ profile.child_name }} is {% if profile.on_site == True %} ON-SITE {% else %} OFF-SITE {% endif %}</h2>
+      <h2>Welcome {{ profile.parent_name }}, your child {{ profile.child_name }} is {% if profile.last_report.action == "i" %} ON-SITE {% else %} OFF-SITE {% endif %}</h2>
     </div>
 
     <div style="height:50px"></div>
@@ -37,9 +37,19 @@
       <h3>What would you like to do?</h3>
     </div>
 
-    {% if profile.on_site == True %}
-    {% else %}
-    {% endif %}
+    {% comment %}
+    <form class="" action="" method="post">
+      {% csrf_token %}
+      <div class="row centered">
+        {% if profile.last_report.action == "i" %}
+          <input type="submit" class="button primary big" name="out" value="Check-OUT">
+        {% else %}
+          <input type="submit" class="button primary big" name="in" value="Check-IN">
+        {% endif %}
+      </div>
+    </form>
+    {% endcomment %}
+
     <div class="row centered">
       <form method="post">
         {% csrf_token %}
@@ -47,6 +57,7 @@
         <input class="button primary big" type="submit" value="Submit">
       </form>
     </div>
+
 
     <div class="row centered">
       <a href="{% url 'parent_profile_view' profile.id %}" class="button big" role="button">Go to your Profile Page</a>

@@ -5,10 +5,39 @@
     <h1>Welcome to the employee portal {{ request.user }}</h1>
   </div>
 
-  <div style="height:75px"></div>
+  <div style="height:50px"></div>
 
   <div class="row centered">
     <a href="{% url 'customer_create_view' %}" class="button" role="button">Create New Customer</a>
   </div>
+
+  <div style="height:50px"></div>
+
+  <div class="row centered">
+    <h1>List of all Children:</h1>
+  </div>
+
+  <div class="row centered">
+    <div class="col col-6">
+      <table class="bordered">
+          <thead>
+              <tr>
+                  <th>Child Name</th>
+                  <th>Initial Report</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for profile in object_list %}
+              <tr>
+                  <td><a href="{% url 'parent_profile_view' profile.id %}">{{ profile.child_name }}</a></td>
+                  <td><a href="{% url 'child_report_create_view' %}">Initiate Customer</a></td>
+
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+  </div>
+
 
 {% endblock %}

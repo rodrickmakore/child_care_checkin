@@ -10,6 +10,9 @@ class CustomerProfile(models.Model):
     child_name = models.CharField(max_length=100)
     code = models.CharField(max_length=4)
 
+    def last_report(self):
+        return ChildReport.objects.filter(profile=self.id).last()
+
     @property
     def on_site(self):
         last_report = ChildReport.objects.filter(profile=self.id).last()
