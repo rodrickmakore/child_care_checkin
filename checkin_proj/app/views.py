@@ -20,7 +20,7 @@ class IndexView(CreateView):
     template_name = "index.html"
     success_url = reverse_lazy("index_view")
 
-    def get_context_data(self):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data()
         if self.request.GET:
             context["profile"] = CustomerProfile.objects.get(code=self.request.GET.get("code"))

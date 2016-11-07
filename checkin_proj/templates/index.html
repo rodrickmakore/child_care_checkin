@@ -5,7 +5,7 @@
     <h1>Welcome to Daycare</h1>
   </div>
 
-  <div style="height:100px"></div>
+  <div style="height:50px"></div>
 
   <div class="row centered">
     <h3>Parents enter you child's sercret code here:</h3>
@@ -15,20 +15,20 @@
 
   <!-- Parent sign in form -->
   <div class="row centered">
-    <form class="" action="" method="get">
+    <form method="get">
       {% csrf_token %}
       <input type="text" name="code" placeholder="Code goes here:">
       <input class="button" type="submit" name="" value="Submit">
     </form>
   </div>
 
-  <div style="height:100px"></div>
+  <div style="height:50px"></div>
 
   <!-- Information displayed when code entered -->
   {% if profile %}
-
+    <h1>{{ profile.on_site }}</h1>
     <div class="row centered">
-      <h2>Welcome {{ profile.parent_name }}, your child {{ profile.child_name }} is </h2>
+      <h2>Welcome {{ profile.parent_name }}, your child {{ profile.child_name }} is {% if profile.on_site == True %} ON-SITE {% else %} OFF-SITE {% endif %}</h2>
     </div>
 
     <div style="height:50px"></div>
@@ -37,11 +37,14 @@
       <h3>What would you like to do?</h3>
     </div>
 
+    {% if profile.on_site == True %}
+    {% else %}
+    {% endif %}
     <div class="row centered">
       <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input class="button big" type="submit" value="Submit">
+        <input class="button primary big" type="submit" value="Submit">
       </form>
     </div>
 

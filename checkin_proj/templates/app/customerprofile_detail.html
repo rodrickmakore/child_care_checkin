@@ -6,10 +6,17 @@
     <h1>Welcome to your profile page {{ object.parent_name }}</h1>
   </div>
 
-  <div style="height:100px"></div>
+  <div style="height:50px"></div>
 
   <div class="row centered">
-    <h2>Your child {{ object.child_name }} is</h2>
+    <a href="{% url 'index_view' %}" class="button primary big" role="button">Log Out</a>
+  </div>
+
+  <div style="height:50px"></div>
+
+
+  <div class="row centered">
+    <h2>Your child {{ object.child_name }} is {% if profile.on_site is True %} ON-SITE {% else %} OFF-SITE {% endif %}</h2>
   </div>
 
   <div style="height:50px"></div>
@@ -33,11 +40,6 @@
             </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td></td>
-            </tr>
-        </tfoot>
     </table>
   </div>
 
