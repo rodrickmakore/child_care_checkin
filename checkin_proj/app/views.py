@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from app.models import CustomerProfile, ChildReport
 from string import ascii_letters, digits
 import random
+import datetime
+from django.utils import timezone
 
 def new_code():
     char_list = ascii_letters + digits
@@ -22,7 +24,6 @@ class IndexView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        print(self.request.GET)
         if self.request.GET:
             context["profile"] = CustomerProfile.objects.get(code=self.request.GET.get("code"))
         return context
@@ -33,6 +34,9 @@ class IndexView(CreateView):
         instance.profile = CustomerProfile.objects.get(code=self.request.GET.get("code"))
         if instance.action == last_report.action:
             return super().form_invalid(form)
+        if instance.action == "o":
+            instance.created = timezone.now()
+            instance.time = str((instance.created - last_report.created))
         return super().form_valid(form)
 
 class CustomerCreateView(CreateView):
@@ -67,7 +71,6 @@ class ChildReportCreateView(CreateView):
     model = ChildReport
     success_url = reverse_lazy("index_view")
     fields = ('action', 'profile')
-
 
 class EmployeeDetailView(DetailView):
     model = CustomerProfile
